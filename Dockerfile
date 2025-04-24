@@ -1,20 +1,15 @@
-# Use official Node.js LTS image as base
-FROM node:18-alpine AS builder
+FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+COPY ./package*.json ./
 
-# Install all dependencies (including devDependencies for build)
-RUN npm ci
+RUN npm install
 
-# Copy the rest of the application code
 COPY . .
 
-# Copy public folder explicitly
-COPY public ./public
-
-# Build the React app
 RUN npm run build
+
+EXPOSE 3000
+
+CMD [ "npm", "run", "dev" ]
