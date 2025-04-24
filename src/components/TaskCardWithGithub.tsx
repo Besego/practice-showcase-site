@@ -8,6 +8,7 @@ interface TaskCardWithGithubProps {
   githubLink?: string;
   screenshots: string[];
   className?: string;
+  cols?: number;
 }
 
 export function TaskCardWithGithub({
@@ -16,6 +17,7 @@ export function TaskCardWithGithub({
   githubLink,
   screenshots,
   className,
+  cols = 3,
 }: TaskCardWithGithubProps) {
   return (
     <Card className={cn("w-full transition-all hover:shadow-lg", className)}>
@@ -32,22 +34,37 @@ export function TaskCardWithGithub({
         >
           Посмотреть код на GitHub
         </a>
-        <div className="grid gap-4 md:grid-cols-2">
-          {screenshots.map((screenshot, index) => (
-            <div 
-              key={index} 
-              className="overflow-hidden rounded-md bg-soft-blue p-2"
-            >
-              <img
-                width={512}
-                height={512}
-                src={screenshot}
-                alt={`${title} screenshot ${index + 1}`}
-                className="object-cover rounded-md"
-              />
-            </div>
-          ))}
-        </div>
+        {cols === 3 ? (
+          <div className="grid gap-4 md:grid-cols-3">
+            {screenshots.map((screenshot, index) => (
+              <div
+                key={index}
+                className="overflow-hidden rounded-md bg-soft-blue p-2"
+              >
+                <img
+                  src={screenshot}
+                  alt={`${title} screenshot ${index + 1}`}
+                  className="w-full max-h-96 object-contain rounded-md"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {screenshots.map((screenshot, index) => (
+              <div
+                key={index}
+                className="overflow-hidden rounded-md bg-soft-blue p-2"
+              >
+                <img
+                  src={screenshot}
+                  alt={`${title} screenshot ${index + 1}`}
+                  className="w-full max-h-96 object-contain rounded-md"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
